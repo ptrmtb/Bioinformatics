@@ -10,7 +10,7 @@ int patternCount(String text, String pattern) {
   return count;
 }
 
-dynamic frequentWords(String text, int k) {
+List<dynamic> frequentWords(String text, int k) {
   Map<String, int> memo = {};
   
   for (var i = 0; i < (text.length-k+1); i++) {
@@ -21,9 +21,9 @@ dynamic frequentWords(String text, int k) {
       memo[currentSlidingText] = patternCount(text, currentSlidingText);
     }
   }
-  var sortedByValueMap = Map.fromEntries(memo.entries.toList()..sort((e1, e2) => e2.value.compareTo(e1.value)));
-  var sortedByValueList = [];
-  memo.forEach((k,v) => sortedByValueList.add([k,v]));
+  List sortedByValueList = [];
+  int maximumValue = memo.values.reduce((current, next) => current > next ? current : next);
+  memo.forEach((k,v) => v == maximumValue ? sortedByValueList.add([k,v]) : null);
   sortedByValueList.sort((a,b) => b[1].compareTo(a[1]));
   return sortedByValueList;
 }
