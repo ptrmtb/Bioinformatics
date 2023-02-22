@@ -1,17 +1,28 @@
-void main() {
-  print(fibonacci(20));
-}
-
-int fibonacci(int n) {
-  Map<int, int> memo = {};
-  if (memo.containsKey(n)) {
+int memoFibonacci(int n, Map<int,int> memo){
+  if (memo.containsKey(n)){
     return memo[n]!;
-  } else if (n == 0) {
-    return 0;
-  } else if (n < 2) {
-    return 1;
-  } else {
-    memo[n] = fibonacci(n - 2) + fibonacci(n - 1);
+  }
+  if (n < 2){
+    return n;
+  }
+  else {
+    memo[n] = memoFibonacci(n-1,memo) + memoFibonacci(n-2, memo);
     return memo[n]!;
   }
 }
+
+void main() {
+  Stopwatch watch = Stopwatch();
+  watch.start();
+  print(fibonacci(43));
+  watch.stop();
+  print("fibonacci took ${watch.elapsed}");
+
+  watch.reset();
+  
+  Map<int,int> myCache = {};
+
+  watch.start();
+  print(memoFibonacci(200, myCache));
+  watch.stop();
+  print("memoFibonacci took ${watch.elapsed}");
